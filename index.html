@@ -19,9 +19,24 @@
 
         <!-- Add your site or application content here -->
         <div id="app">
-          
+          <input type="number"
+                 v-model="selected.amount"/>
+          <select v-model="selected.coin">
+            <option v-for="coin in coinList"
+                    v-bind:value="coin.id">
+                    {{coin.desc}}
+            </option>
+          </select>
+          <button :disabled="!selected.coin || !selected.amount"
+                  @click="calc()">
+            Calc
+          </button>
+
+          {{result}}
         </div>
 
+        <script src="node_modules/vue/dist/vue.js"></script>
+        <script src="node_modules/axios/dist/axios.min.js"></script>
         <script src="js/index.js"></script>
     </body>
 </html>
