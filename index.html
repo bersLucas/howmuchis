@@ -1,42 +1,52 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>howmuchis</title>
-        <meta name="description" content="Calculate and convert cryptocoins">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Place favicon.ico in the root directory -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>howmuchis</title>
+  <meta name="description" content="Calculate and convert cryptocoins">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <!--[if lte IE 9]>
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
+  <!--    <img :src="getIcon(selected.coin)"/>   -->
 
-        <!-- Add your site or application content here -->
-        <div id="app">
-          <input type="number"
-                 v-model="selected.amount"/>
-          <select v-model="selected.coin">
-            <option v-for="coin in coinList"
-                    v-bind:value="coin.id">
-                    {{coin.desc}}
-            </option>
-          </select>
-          <button :disabled="!selected.coin || !selected.amount"
-                  @click="calc()">
-            Calc
-          </button>
+  <div id="app">
+    <div class="flex-container" v-for="(input, index) in inputs">
+      <div class="input-container">
+        <span v-if="index === 0">howmuchis</span>
+        <span v-if="index !== 0">and</span>
+        <input type="number" step="any" placeholder="0.05" size="4" v-model="input.amount" />
+        <select required v-model="input.coin">
+        <option value="placeholder" disabled selected>Cryptocurrency</option>
+        <option v-for="coin in coinList" :value="coin">{{coin.desc}}</option>
+    </select>
+      </div>
+    </div>
 
-          {{result}}
-        </div>
+    <div class="flex-container">
+      <div class="button-container">
+        <button @click="addCoin()">
+        Add Coin
+      </button>
+        <button :disabled="checkValid()" @click="calc()">
+        Calc
+      </button>
+    </div>
+  </div>
 
-        <script src="node_modules/vue/dist/vue.js"></script>
-        <script src="node_modules/axios/dist/axios.min.js"></script>
-        <script src="js/index.js"></script>
-    </body>
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <script src="node_modules/axios/dist/axios.min.js"></script>
+  <script src="js/index.js"></script>
+</body>
+
 </html>
