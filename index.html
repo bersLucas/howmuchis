@@ -21,30 +21,30 @@
   <!--    <img :src="getIcon(selected.coin)"/>   -->
 
   <div id="app">
-    <div class="flex-container" v-for="(input, index) in inputs">
-      <div class="input-container">
-        <span v-if="index === 0">howmuchis</span>
-        <span v-if="index !== 0">and</span>
-        <input type="number" step="any" placeholder="0.05" size="4" v-model="input.amount" />
+    <div class="flex-container" v-for="(input, index) in inputs" v-cloak>
+      <div class="input-container" :class="{'has-icon': input.coin.icon}">
+        <input type="number" step="any" placeholder="0.00" size="4" v-model="input.amount" />
         <select required v-model="input.coin">
           <option value="placeholder" disabled selected>Cryptocurrency</option>
           <option v-for="coin in coinList" :value="coin">{{coin.desc}}</option>
         </select>
+        <img v-if="input.coin.icon" class="coin-icon" @click="remove(input)" :src="'node_modules/cryptocoins-icons/SVG/' + input.coin.icon" />
         <span v-if="input.value">
           {{input.value}}
         </span>
       </div>
     </div>
 
-<pre>
-    {{result}}
-  </pre>
-
     <div class="flex-container">
-      <div class="button-container">
+      <div class="input-container button-container">
         <button @click="addCoin()">
         Add Coin
-      </button>
+        </button>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div class="button-container">
+
         <button :disabled="checkValid()" @click="calc()">
         Calc
       </button>
