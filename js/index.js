@@ -9,7 +9,7 @@ let howmuchis = new Vue({
   },
   methods: {
     calc: function() {
-      let promises = howmuchis.inputs.map(function(input) {
+      let promises = this.inputs.map(function(input) {
         return getCall(input.coin.id)
           .then(function(response) {
             input.value = response.data[0].price_usd * input.amount;
@@ -19,19 +19,19 @@ let howmuchis = new Vue({
 
       axios.all(promises)
         .then(function(response) {
-          howmuchis.result =
+          this.result =
             response.reduce(function(total, current) {
               return total + current
             }, 0).toFixed(4);
         });
     },
     remove: function(inputToDelete) {
-      howmuchis.inputs = howmuchis.inputs.filter(function(input) {
+      this.inputs = this.inputs.filter(function(input) {
         return inputToDelete !== input;
       });
 
-      if (howmuchis.inputs.length == 0) {
-        howmuchis.addCoin()
+      if (this.inputs.length == 0) {
+        this.addCoin()
       }
     },
     checkInvalid: function() {
@@ -43,7 +43,7 @@ let howmuchis = new Vue({
       })
     },
     addCoin: function() {
-      howmuchis.inputs.push({
+      this.inputs.push({
         coin: 'placeholder'
       })
     }
