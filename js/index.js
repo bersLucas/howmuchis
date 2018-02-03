@@ -34,8 +34,13 @@ let howmuchis = new Vue({
         howmuchis.addCoin()
       }
     },
-    checkValid: function() {
-
+    checkInvalid: function() {
+      return this.inputs.some(function(input) {
+        return input === {
+            coin: 'placeholder'
+          } ||
+          !input.amount;
+      })
     },
     addCoin: function() {
       howmuchis.inputs.push({
