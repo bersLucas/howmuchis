@@ -19,14 +19,20 @@ let howmuchis = new Vue({
 
       axios.all(promises)
         .then(function(response) {
-            howmuchis.result =
-              response.reduce(function(total,current){
+          howmuchis.result =
+            response.reduce(function(total, current) {
               return total + current
-            },0).toFixed(4);
+            }, 0).toFixed(4);
         });
     },
-    getIcon: function(coin) {
-      return "node_modules/cryptocoins-icons/SVG/" + coin.icon;
+    remove: function(inputToDelete) {
+      howmuchis.inputs = howmuchis.inputs.filter(function(input) {
+        return inputToDelete !== input;
+      });
+
+      if (howmuchis.inputs.length == 0) {
+        howmuchis.addCoin()
+      }
     },
     checkValid: function() {
 
