@@ -5,22 +5,25 @@ let howmuchis = new Vue({
     inputs: [{
       coin: 'placeholder'
     }],
-    test: 'data',
     result: '',
   },
   methods: {
     calc: function() {
-      axios.get('https://api.coinmarketcap.com/v1/ticker/' + howmuchis.selected.coin + '/')
-        .then(function(response) {
-          howmuchis.coinList = howmuchis.coinList.map(function(coin) {
-            coin.price_usd = (coin.id === howmuchis.selected.coin) ?
-              response.data[0].price_usd :
-              null;
-            return coin;
-          });
+      let promises = howmuchis.inputs.map(function(input) {
+        return getCall(input.coin.id)
+          .then(function(response) {
+            input.value = response.data[0].price_usd * input.amount;
+            return input.value;
+          })
+      });
 
-          howmuchis.result = parseInt(response.data[0].price_usd) * howmuchis.selected.amount;
-        })
+      axios.all(promises)
+        .then(function(response) {
+            howmuchis.result =
+              response.reduce(function(total,current){
+              return total + current
+            },0).toFixed(4);
+        });
     },
     getIcon: function(coin) {
       return "node_modules/cryptocoins-icons/SVG/" + coin.icon;
@@ -29,10 +32,18 @@ let howmuchis = new Vue({
 
     },
     addCoin: function() {
-      howmuchis.inputs.push({coin:'placeholder'})
+      howmuchis.inputs.push({
+        coin: 'placeholder'
+      })
     }
   }
 });
+
+const API_CALL = 'https://api.coinmarketcap.com/v1/ticker/';
+
+let getCall = function(id) {
+  return axios.get(API_CALL + id + '/');
+}
 
 howmuchis.coinList = [{
     id: 'bitcoin',
