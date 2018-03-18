@@ -19,11 +19,14 @@ let howmuchis = new Vue({
 
       axios.all(promises)
         .then(function(response) {
-          this.result =
+          howmuchis.result =
             response.reduce(function(total, current) {
               return total + current
-            }, 0).toFixed(4);
+            }, 0);
         });
+    },
+    decimalPlaces: function(value, places) {
+      return value.toFixed(places);
     },
     remove: function(inputToDelete) {
       this.inputs = this.inputs.filter(function(input) {

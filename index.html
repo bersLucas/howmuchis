@@ -19,37 +19,41 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
   <!--    <img :src="getIcon(selected.coin)"/>   -->
- <h1>howmuchis</h1>
   <div id="app">
-    <div class="flex-container" v-for="(input, index) in inputs" v-cloak>
-      <div class="input-container" :class="{'has-icon': input.coin.icon}">
-        <input type="number" step="any" placeholder="0.00" size="4" v-model="input.amount" />
-        <select required v-model="input.coin" :class="{'placeholder': input.coin == 'placeholder'}">
-          <option value="placeholder" disabled selected>Cryptocurrency</option>
-          <option v-for="coin in coinList" :value="coin">{{coin.desc}}</option>
-        </select>
-        <img v-if="input.coin.icon" class="coin-icon" @click="remove(input)" :src="'node_modules/cryptocoins-icons/SVG/' + input.coin.icon" />
-        <span v-if="input.value">
-          {{input.value}}
-        </span>
+    <h1>howmuchis</h1>
+    <section class="calc-pane">
+      <div class="flex-container" v-for="(input, index) in inputs" v-cloak>
+        <div class="input-container" :class="{'has-icon': input.coin.icon}">
+          <input type="number" step="any" placeholder="0.00" size="4" v-model="input.amount" />
+          <select required v-model="input.coin" :class="{'placeholder': input.coin == 'placeholder'}">
+            <option value="placeholder" disabled selected>Cryptocurrency</option>
+            <option v-for="coin in coinList" :value="coin">{{coin.desc}}</option>
+          </select>
+          <img v-if="input.coin.icon" class="coin-icon" @click="remove(input)" :src="'node_modules/cryptocoins-icons/SVG/' + input.coin.icon" />
+          <span v-if="input.value">
+            {{decimalPlaces(input.value,4)}}
+          </span>
+        </div>
       </div>
-    </div>
-
-    <div class="flex-container">
-      <div class="input-container button-container">
-        <button @click="addCoin()">
-        Add Coin
-        </button>
+      <div>
+        <div class="input-container button-container">
+          <button @click="addCoin()">
+          Add Coin
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="flex-container">
-      <div class="button-container">
-
-        <button :disabled="checkInvalid()" @click="calc()">
-        Calc
-      </button>
+      <div class="flex-container">
+        <div class="button-container">
+          <div>
+            <b v-if="result">${{decimalPlaces(result,4)}}</b>
+          </div>
+          </span>
+          <button :disabled="checkInvalid()" @click="calc()">
+            Calc
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
 
   <script src="node_modules/vue/dist/vue.js"></script>
