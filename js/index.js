@@ -12,13 +12,14 @@ let howmuchis = new Vue({
       let promises = this.inputs.map(function(input) {
         return getCall(input.coin.id)
           .then(function(response) {
-            input.value = response.data[0].price_usd * input.amount;
+            input.value = response[0].price_usd * input.amount;
             return input.value;
           })
       });
 
-      axios.all(promises)
+      Promise.all(promises)
         .then(function(response) {
+          console.log(response)
           howmuchis.result =
             response.reduce(function(total, current) {
               return total + current
@@ -56,7 +57,8 @@ let howmuchis = new Vue({
 const API_CALL = 'https://api.coinmarketcap.com/v1/ticker/';
 
 let getCall = function(id) {
-  return axios.get(API_CALL + id + '/');
+  return fetch(API_CALL + id + '/')
+  .then(res => res.json());
 }
 
 howmuchis.coinList = [{
