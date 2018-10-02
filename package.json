@@ -2,16 +2,18 @@
   "name": "howmuchis",
   "version": "1.0.0",
   "description": "Calculate and convert crypto prices",
-  "main": "index.js",
-  "author": "",
+  "main": "index.html",
+  "author": "bersLucas",
   "license": "MIT",
   "dependencies": {
     "cryptocoins-icons": "^2.7.0",
     "normalize.css": "8.0.0",
     "vue": "^2.5.16"
   },
+  "scripts": {
+    "sass": "sass sass/style.scss css/style.css --style compressed"
+  },
   "devDependencies": {
-    "gulp": "3.9.1",
-    "gulp-sass": "4.0.1"
+    "sass": "^1.14.1"
   }
 }

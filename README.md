@@ -5,6 +5,10 @@ A tool to calculate total values of cryptocurrencies. Uses coinmarketcap.com's A
 ````bash
 # install depencies
 npm install
-# minify code and compile stylesheets
-gulp
 ````
+
+# Development
+```bash
+# compile stylesheets
+npm run sass
+```
